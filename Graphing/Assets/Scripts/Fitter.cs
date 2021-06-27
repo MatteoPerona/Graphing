@@ -8,7 +8,8 @@ public class Fitter : MonoBehaviour
     void Start()
     {
         RectTransform rectTrans = GetComponent<RectTransform>();
-        rectTrans.sizeDelta = transform.parent.GetComponent<RectTransform>().sizeDelta;
+        Vector2 parentSize = transform.parent.GetComponent<RectTransform>().sizeDelta;
+        rectTrans.sizeDelta = new Vector2(parentSize.x, parentSize.y);
         transform.position = transform.parent.position;
     }
 
