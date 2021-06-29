@@ -6,8 +6,9 @@ using TMPro;
 
 public class Ticker : MonoBehaviour
 {
-	float tickerSpeed = 3f;
+	public float tickerSpeed = 1f;
 
+	float price;
 	public TMP_Text priceText;
 	public float priceDelta;
 
@@ -21,6 +22,9 @@ public class Ticker : MonoBehaviour
 	public TMP_Text balanceText;
 	public float balance = 1;
 
+	public TMP_Text investmentText;
+	public float investment;
+
 	// Start is called before the first frame update
 	void Start()
     {
@@ -30,19 +34,14 @@ public class Ticker : MonoBehaviour
 		}
 
 		StartCoroutine(startupRoutine());
+
+		tickerSpeed = 1;
 	}
 
     // Update is called once per frame
     void Update()
     {
-		if (Input.GetKey("space"))
-		{
-			tickerSpeed = .1f;
-		}
-		else
-		{
-			tickerSpeed = 1f;
-		}
+		
 	}
 
 
@@ -59,8 +58,6 @@ public class Ticker : MonoBehaviour
 		{
 			float x = (p * grapher.xMax) / grapher.pointCount;
 			float y = prevY + Random.Range(.5f, -.5f);
-
-			Debug.Log(x + " " + y);
 
 			data.Add(new Vector2(x, y));
 
@@ -100,13 +97,73 @@ public class Ticker : MonoBehaviour
 
 				grapher.drawTweens();
 
-				float priceFloat = Mathf.Round(100 * (priceDelta + (y * grapher.yMax) / grapher.size.y)) / 100;
-				priceText.text = "$" + priceFloat.ToString();
+				float oldPrice = price;
+				price = Mathf.Round(100 * (priceDelta + (y * grapher.yMax) / grapher.size.y)) / 100;
+				priceText.text = "$" + price.ToString();
+
+				if (investment > 0)
+				{
+					investment *= (price / oldPrice);
+					investmentText.text = "$" + investment.ToString();
+				}
 			}
 
 			yield return null;
 			time += Time.deltaTime;
 
 		}
+	}
+
+
+	public void order (float percentage)
+	{
+		//scale percentage down for better control
+		if (percentage > .75f)
+		{
+			percentage = 1;
+		}
+		else if (percentage < -.75f)
+		{
+			percentage = -1;
+		}
+		percentage = percentage / .75f;
+
+		if (percentage > 0)
+		{
+			float vol = balance * percentage;
+			balance -= vol;
+			investment += vol;
+		}
+		else
+		{
+			percentage = Mathf.Abs(percentage);
+			float vol = investment * percentage;
+			investment -= vol;
+			balance += vol;
+		}
+		balanceText.text = "$" + balance.ToString();
+		investmentText.text = "$" + investment.ToString();
+	}
+
+	public void updateTickerSpeed(float percentage)
+	{
+		Debug.Log(tickerSpeed);
+		float delta = percentage*1.5f;
+		Debug.Log(delta);
+		float temp = delta + tickerSpeed;
+		Debug.Log(temp);
+		if (delta + tickerSpeed > 1)
+		{
+			tickerSpeed = 1;
+		}
+		else if (delta + tickerSpeed < .1f)
+		{
+			tickerSpeed = .1f;
+		}
+		else
+		{
+			tickerSpeed += delta;
+		}
+		Debug.Log(tickerSpeed);
 	}
 }

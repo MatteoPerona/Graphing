@@ -26,6 +26,7 @@ public class Grapher : MonoBehaviour
 
 	public bool ready = false;
 
+
 	void Start()
 	{
 		if (points == null)
@@ -37,6 +38,7 @@ public class Grapher : MonoBehaviour
 		{
 			units = new List<GameObject>();
 		}
+
 
 		size = GetComponent<RectTransform>().sizeDelta;
 		max = new Vector2(size.x / 2, size.y / 2);
@@ -74,7 +76,6 @@ public class Grapher : MonoBehaviour
 
 	public void plotPoint(float x, float y, bool scaleCoords = true)
 	{
-		Debug.Log(size);
 		float xVal = x;
 		float yVal = y;
 		if (scaleCoords)
@@ -83,9 +84,8 @@ public class Grapher : MonoBehaviour
 			yVal = size.y * (y / yMax);
 		}
 
-		GameObject newPoint = Instantiate(point, new Vector2 (xVal, yVal), Quaternion.identity, transform);
+		GameObject newPoint = Instantiate(point, new Vector2(xVal, yVal), Quaternion.identity, transform);
 		points.Add(newPoint);
-		Debug.Log(xVal +" "+ yVal);
 
 		// updates window size
 		if (constantWindowSize && yVal > size.y || yVal < 0)
@@ -174,7 +174,6 @@ public class Grapher : MonoBehaviour
 
 	IEnumerator smoothMove (Transform obj, Vector2 pos1, Vector2 pos2, float duration)
 	{
-		Debug.Log("running");
 		float time = 0.0f;
 		while (time < duration)
 		{
