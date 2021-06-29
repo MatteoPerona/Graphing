@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Controller : MonoBehaviour
 {
@@ -15,6 +17,9 @@ public class Controller : MonoBehaviour
 
 	bool isOrder = false;
 	float currentTickerSpeed;
+
+	public TMP_Text inputText;
+	TMP_Text currentInputText;
 
 	// Start is called before the first frame update
 	void Start()
@@ -38,12 +43,14 @@ public class Controller : MonoBehaviour
 	{
 		if (Input.GetMouseButtonDown(0))
 		{
+			StartCoroutine(fadeAlpha(1, .2f, GetComponent<Image>()));
+
+			currentInputText = Instantiate(inputText.gameObject, transform.position, Quaternion.identity, transform).GetComponent<TMP_Text>();
+
 			currentTickerSpeed = ticker.tickerSpeed;
 			isOrder = false;
 
 			startPos = Input.mousePosition;
-			Debug.Log(startPos.x);
-			Debug.Log(size.x * .75f);
 
 			if (startPos.x < size.x*.75f)
 			{
@@ -52,14 +59,28 @@ public class Controller : MonoBehaviour
 			ticker.tickerSpeed = 3f;
 		}
 
-		if (Input.GetMouseButton(0))
+		else if (Input.GetMouseButton(0))
 		{
 			deltaY = (Input.mousePosition.y - startPos.y) / size.y;
 
+			currentInputText.transform.position = (Input.mousePosition + new Vector3(0, 200, 0));
+
+			if (isOrder)
+			{
+				currentInputText.text = ticker.orderVolumeString(deltaY);
+			}
+			else
+			{
+				currentInputText.text = ticker.deltaSpeedString(deltaY);
+			}
 		}
 
 		else if (Input.GetMouseButtonUp(0))
 		{
+			StartCoroutine(fadeAlpha(0, .2f, GetComponent<Image>()));
+
+			currentInputText.gameObject.GetComponent<Unit>().DestroyMe();
+
 			endPos = Input.mousePosition;
 			deltaY = (endPos.y - startPos.y) / size.y;
 
@@ -73,7 +94,25 @@ public class Controller : MonoBehaviour
 			{
 				ticker.updateTickerSpeed(deltaY);
 			}
+		}	
+	}
+
+
+	IEnumerator fadeAlpha(float endAlpha, float duration, Image im)
+	{
+		Color temp = im.color;
+		float startAlpha = im.color.a;
+
+		float time = 0.0f;
+		while (time < duration)
+		{
+			temp.a = Mathf.Lerp(startAlpha, endAlpha, time / duration);
+			im.color = temp;
+
+			yield return null;
+			time += Time.deltaTime;
 		}
-		
+		temp.a = endAlpha;
+		im.color = temp;
 	}
 }

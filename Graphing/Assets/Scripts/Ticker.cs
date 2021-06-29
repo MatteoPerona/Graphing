@@ -118,15 +118,18 @@ public class Ticker : MonoBehaviour
 	public void order (float percentage)
 	{
 		//scale percentage down for better control
-		if (percentage > .75f)
+		if (percentage >= .75f)
 		{
 			percentage = 1;
 		}
-		else if (percentage < -.75f)
+		else if (percentage <= -.75f)
 		{
 			percentage = -1;
 		}
-		percentage = percentage / .75f;
+		else
+		{
+			percentage = percentage / .75f;
+		}
 
 		if (percentage > 0)
 		{
@@ -145,13 +148,41 @@ public class Ticker : MonoBehaviour
 		investmentText.text = "$" + investment.ToString();
 	}
 
+	public string orderVolumeString(float percentage)
+	{
+		float vol;
+
+		//scale percentage down for better control
+		if (percentage >= .75f)
+		{
+			percentage = 1;
+		}
+		else if (percentage <= -.75f)
+		{
+			percentage = -1;
+		}
+		else
+		{
+			percentage = percentage / .75f;
+		}
+
+		if (percentage > 0)
+		{
+			vol = balance * percentage;
+			Debug.Log("+$" + vol.ToString());
+			return "+$" + vol.ToString();
+		}
+		
+		percentage = Mathf.Abs(percentage);
+		vol = investment * percentage;
+		Debug.Log("-$" + vol.ToString());
+		return "-$" + vol.ToString();
+	}
+
 	public void updateTickerSpeed(float percentage)
 	{
-		Debug.Log(tickerSpeed);
 		float delta = percentage*1.5f;
-		Debug.Log(delta);
 		float temp = delta + tickerSpeed;
-		Debug.Log(temp);
 		if (delta + tickerSpeed > 1)
 		{
 			tickerSpeed = 1;
@@ -164,6 +195,22 @@ public class Ticker : MonoBehaviour
 		{
 			tickerSpeed += delta;
 		}
-		Debug.Log(tickerSpeed);
+	}
+
+	public string deltaSpeedString(float percentage)
+	{
+		float delta = percentage * 1.5f;
+		float temp = delta + tickerSpeed;
+		if (delta + tickerSpeed > 1)
+		{
+			delta = 1 - tickerSpeed;
+			
+		}
+		else if (delta + tickerSpeed < .1f)
+		{
+			delta = -1 * (tickerSpeed - .1f);
+		}
+		Debug.Log(delta.ToString());
+		return delta.ToString();
 	}
 }
