@@ -17,6 +17,8 @@ public class Grapher : MonoBehaviour
 	public Vector2 max;
 	public Vector2 min;
 
+	Vector2 refPos;
+
 	public float pointDistX;
 
 	public bool constantWindowSize = true;
@@ -39,10 +41,12 @@ public class Grapher : MonoBehaviour
 			units = new List<GameObject>();
 		}
 
+		refPos = transform.position;
 
 		size = GetComponent<RectTransform>().sizeDelta;
-		max = new Vector2(size.x / 2, size.y / 2);
-		min = new Vector2(-size.x / 2, -size.y / 2);
+		max = new Vector2(refPos.x + size.x / 2, refPos.y + size.y / 2);
+		min = new Vector2(refPos.x - size.x / 2, refPos.y - size.y / 2);
+		
 
 		pointDistX = size.x / pointCount;
 
@@ -86,6 +90,7 @@ public class Grapher : MonoBehaviour
 
 		GameObject newPoint = Instantiate(point, new Vector2(xVal, yVal), Quaternion.identity, transform);
 		points.Add(newPoint);
+		Debug.Log(xVal + ", " + yVal);
 
 		// updates window size
 		if (constantWindowSize && yVal > size.y || yVal < 0)

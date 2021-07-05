@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 925426478137783837}
   - component: {fileID: 2483860857126423799}
   - component: {fileID: 3373896557134652050}
-  - component: {fileID: 8980711204448497828}
+  - component: {fileID: 7173468612616036729}
   m_Layer: 5
   m_Name: InputText
   m_TagString: Untagged
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &8980711204448497828
+--- !u!114 &7173468612616036729
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,6 +144,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2706975739315517530}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 446bc38c60c35264498f42f974af1d49, type: 3}
+  m_Script: {fileID: 11500000, guid: 73045dbaf8fb55b4697a7619b9705c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

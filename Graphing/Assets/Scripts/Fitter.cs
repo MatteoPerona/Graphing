@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class Fitter : MonoBehaviour
 {
+    public bool useParentAsReference = false;
+
     // Start is called before the first frame update
     void Awake()
     {
         Rect safeArea = Screen.safeArea;
         RectTransform rectTrans = GetComponent<RectTransform>();
-        //Vector2 parentSize = transform.parent.GetComponent<RectTransform>().sizeDelta;
-        //rectTrans.sizeDelta = new Vector2(parentSize.x, parentSize.y);
         rectTrans.sizeDelta = safeArea.size;
+
+        if (useParentAsReference)
+        {
+            Vector2 parentSize = transform.parent.GetComponent<RectTransform>().sizeDelta;
+            rectTrans.sizeDelta = new Vector2(parentSize.x, parentSize.y);
+        }
+
         transform.position = transform.parent.position;
     }
 
@@ -20,4 +27,6 @@ public class Fitter : MonoBehaviour
     {
         
     }
+
+    
 }

@@ -84,27 +84,31 @@ public class Ticker : MonoBehaviour
 					p.transform.position = new Vector3(p.transform.position.x - grapher.pointDistX, p.transform.position.y);
 				}
 
+				float oldPrice = price;
+
 				Transform prevPoint = points[points.Count - 1].transform;
 				float x = prevPoint.position.x + grapher.pointDistX;
 				float y = prevPoint.position.y + Random.Range(rangeMax, rangeMin) / grapher.yMax * grapher.size.y;
-				if (y < 0 && priceDelta <= 0)
+
+				price = Mathf.Round(100 * (priceDelta + (y * grapher.yMax) / grapher.size.y)) / 100;
+
+				if (price <= 0)
 				{
 					y = prevPoint.position.y;
+					price = Mathf.Round(100 * (priceDelta + (y * grapher.yMax) / grapher.size.y)) / 100;
 				}
 				grapher.plotPoint(x, y, false);
 
 				grapher.removePoint(points[0]);
 
 				grapher.drawTweens();
-
-				float oldPrice = price;
-				price = Mathf.Round(100 * (priceDelta + (y * grapher.yMax) / grapher.size.y)) / 100;
+				
 				priceText.text = "$" + price.ToString();
 
 				if (investment > 0)
 				{
 					investment *= (price / oldPrice);
-					investmentText.text = "$" + investment.ToString();
+					investmentText.text = "$" + (Mathf.Round(investment * 100) / 100).ToString();
 				}
 			}
 
@@ -144,8 +148,8 @@ public class Ticker : MonoBehaviour
 			investment -= vol;
 			balance += vol;
 		}
-		balanceText.text = "$" + balance.ToString();
-		investmentText.text = "$" + investment.ToString();
+		balanceText.text = "$" + (Mathf.Round(balance * 100) / 100).ToString();
+		investmentText.text = "$" + (Mathf.Round(investment * 100) / 100).ToString();
 	}
 
 	public string orderVolumeString(float percentage)
@@ -169,19 +173,19 @@ public class Ticker : MonoBehaviour
 		if (percentage > 0)
 		{
 			vol = balance * percentage;
-			Debug.Log("+$" + vol.ToString());
-			return "+$" + vol.ToString();
+			//Debug.Log("+$" + vol.ToString());
+			return "+$" + (Mathf.Round(vol * 100) / 100).ToString();
 		}
 		
 		percentage = Mathf.Abs(percentage);
 		vol = investment * percentage;
-		Debug.Log("-$" + vol.ToString());
-		return "-$" + vol.ToString();
+		//Debug.Log("-$" + vol.ToString());
+		return "-$" + (Mathf.Round(vol * 100) / 100).ToString();
 	}
 
 	public void updateTickerSpeed(float percentage)
 	{
-		float delta = percentage*1.5f;
+		float delta = percentage * -1.5f;
 		float temp = delta + tickerSpeed;
 		if (delta + tickerSpeed > 1)
 		{
@@ -197,20 +201,17 @@ public class Ticker : MonoBehaviour
 		}
 	}
 
-	public string deltaSpeedString(float percentage)
+	public string deltaSpeedString(float percentage, float currentTickerSpeed)
 	{
-		float delta = percentage * 1.5f;
-		float temp = delta + tickerSpeed;
-		if (delta + tickerSpeed > 1)
+		float delta = percentage * -1.5f + currentTickerSpeed;
+		if (delta > 1)
 		{
-			delta = 1 - tickerSpeed;
-			
+			delta = 1;
 		}
-		else if (delta + tickerSpeed < .1f)
+		else if (delta < .1f)
 		{
-			delta = -1 * (tickerSpeed - .1f);
+			delta = .1f;
 		}
-		Debug.Log(delta.ToString());
-		return delta.ToString();
+		return (Mathf.Round(delta * 100) / 100).ToString() + " s";
 	}
 }

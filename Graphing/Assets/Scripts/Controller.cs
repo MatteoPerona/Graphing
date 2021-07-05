@@ -21,6 +21,11 @@ public class Controller : MonoBehaviour
 	public TMP_Text inputText;
 	TMP_Text currentInputText;
 
+	Color red = new Color32(235, 64, 52, 255);
+	Color green = new Color32(52, 235, 73, 255);
+	Color blue = new Color32(52, 128, 235, 255);
+	Color orange = new Color32(235, 131, 52, 255);
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -68,10 +73,12 @@ public class Controller : MonoBehaviour
 			if (isOrder)
 			{
 				currentInputText.text = ticker.orderVolumeString(deltaY);
+				currentInputText.color = Color.Lerp(red, green, deltaY + 0.5f);
 			}
 			else
 			{
-				currentInputText.text = ticker.deltaSpeedString(deltaY);
+				currentInputText.text = ticker.deltaSpeedString(deltaY, currentTickerSpeed);
+				currentInputText.color = Color.Lerp(blue, orange, deltaY + 0.5f);
 			}
 		}
 
@@ -79,7 +86,7 @@ public class Controller : MonoBehaviour
 		{
 			StartCoroutine(fadeAlpha(0, .2f, GetComponent<Image>()));
 
-			currentInputText.gameObject.GetComponent<Unit>().DestroyMe();
+			currentInputText.gameObject.GetComponent<InputText>().DestroyMe();
 
 			endPos = Input.mousePosition;
 			deltaY = (endPos.y - startPos.y) / size.y;
