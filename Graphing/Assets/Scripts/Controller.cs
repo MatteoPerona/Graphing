@@ -48,6 +48,7 @@ public class Controller : MonoBehaviour
 	{
 		if (Input.GetMouseButtonDown(0))
 		{
+			Debug.Log(Input.mousePosition);
 			StartCoroutine(fadeAlpha(1, .2f, GetComponent<Image>()));
 
 			currentInputText = Instantiate(inputText.gameObject, transform.position, Quaternion.identity, transform).GetComponent<TMP_Text>();

@@ -142,11 +142,11 @@ public class Grapher : MonoBehaviour
 
 	void updateWindowPos(float extreme)
 	{
-		float yDelta = extreme - size.y;
+		float yDelta = extreme - max.y;
 		
 		if (yDelta < 0)
 		{
-			yDelta = extreme;
+			yDelta = extreme - min.y;
 		}
 
 		try
