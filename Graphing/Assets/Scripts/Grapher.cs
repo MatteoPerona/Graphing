@@ -93,7 +93,7 @@ public class Grapher : MonoBehaviour
 		Debug.Log(xVal + ", " + yVal);
 
 		// updates window size
-		if (constantWindowSize && yVal > size.y || yVal < 0)
+		if (constantWindowSize && yVal > max.y || yVal < min.y)
 		{
 			updateWindowPos(yVal);
 		}

@@ -28,10 +28,8 @@ public class LayoutController : MonoBehaviour
 		}
 
 		// checking that all inputted values add up to 1
-		if (sumToOne(occupancy))
-		{
-			refreshLayout();
-		}
+		sumToOne(occupancy);
+		refreshLayout();
 	}
 
 	// Update is called once per frame
@@ -43,6 +41,7 @@ public class LayoutController : MonoBehaviour
 	void refreshLayout() // updates sizes & positions of children
 	{
 		Vector2 size = GetComponent<RectTransform>().sizeDelta;
+		Debug.Log(size);
 		float focus = size.x;
 		if (controlsYAxis)
 		{
@@ -54,11 +53,12 @@ public class LayoutController : MonoBehaviour
 		{
 			RectTransform currentRect = childOrder[i].GetComponent<RectTransform>();
 			currentRect.sizeDelta = new Vector2(focus * occupancy[i], size.y);
+			Debug.Log(size);
 			if (controlsYAxis)
 			{
 				currentRect.sizeDelta = new Vector2(size.x, focus * occupancy[i]);
-				
-				childOrder[i].transform.localPosition = new Vector2(0, size.y / 2 - buffer - currentRect.sizeDelta.y/2);
+
+				childOrder[i].transform.localPosition = new Vector2(0, size.y / 2 - buffer - currentRect.sizeDelta.y / 2);
 				buffer += currentRect.sizeDelta.y;
 			}	
 			else
@@ -83,7 +83,7 @@ public class LayoutController : MonoBehaviour
 			Debug.LogError("The sum of floats in Occupancy is greater than 1.");
 			return false;
 		}
-		else if (sum < 1)
+		else if (sum < .99f)
 		{
 			Debug.LogError("The sum of floats in Occupancy is less than 1.");
 			return false;

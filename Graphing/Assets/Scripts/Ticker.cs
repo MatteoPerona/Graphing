@@ -16,8 +16,7 @@ public class Ticker : MonoBehaviour
 
 	public bool runTicker = true;
 
-	public float rangeMax = 0.5f;
-	public float rangeMin = -0.5f;
+	public List<Vector2> ranges;
 
 	public TMP_Text balanceText;
 	public float balance = 1;
@@ -25,12 +24,23 @@ public class Ticker : MonoBehaviour
 	public TMP_Text investmentText;
 	public float investment;
 
+	public int rangeIndex = 0;
+	public float volumeAmp = 1;
+	public bool overrideRangeSelect = false;
+	public int rangeSelectFrequency = 200; // number of ticks before changing range
+
+
 	// Start is called before the first frame update
 	void Start()
     {
 		if (grapher == null)
 		{
 			grapher = GetComponent<Grapher>();
+		}
+
+		if (ranges == null)
+		{
+			ranges = new List<Vector2>();
 		}
 
 		StartCoroutine(startupRoutine());
@@ -71,6 +81,7 @@ public class Ticker : MonoBehaviour
 	IEnumerator ticker()
 	{
 		float time = 0.0f;
+		int ticks = 0;
 
 		while (runTicker)
 		{
@@ -88,7 +99,8 @@ public class Ticker : MonoBehaviour
 
 				Transform prevPoint = points[points.Count - 1].transform;
 				float x = prevPoint.position.x + grapher.pointDistX;
-				float y = prevPoint.position.y + Random.Range(rangeMax, rangeMin) / grapher.yMax * grapher.size.y;
+				float y = prevPoint.position.y + Random.Range(ranges[rangeIndex].x * volumeAmp, ranges[rangeIndex].y * volumeAmp)
+					/ grapher.yMax * grapher.size.y;
 
 				price = Mathf.Round(100 * (priceDelta + (y * grapher.yMax) / grapher.size.y)) / 100;
 
@@ -97,6 +109,16 @@ public class Ticker : MonoBehaviour
 					y = prevPoint.position.y;
 					price = Mathf.Round(100 * (priceDelta + (y * grapher.yMax) / grapher.size.y)) / 100;
 				}
+				else if (price <= 1)
+				{
+					overrideRangeSelect = true;
+					rangeIndex = 1;
+				}
+				else
+				{
+					overrideRangeSelect = false;
+				}
+
 				grapher.plotPoint(x, y, false);
 
 				grapher.removePoint(points[0]);
@@ -109,6 +131,21 @@ public class Ticker : MonoBehaviour
 				{
 					investment *= (price / oldPrice);
 					investmentText.text = "$" + (Mathf.Round(investment * 100) / 100).ToString();
+				}
+
+				// logic to rotate through ranges
+				ticks++;
+				if (ticks == rangeSelectFrequency)
+				{
+					ticks = 0;
+					if (!overrideRangeSelect)
+					{
+						rangeIndex++;
+						if (ranges.Count == rangeIndex)
+						{
+							rangeIndex = (int) Mathf.Round(Random.Range(0, ranges.Count - 1));
+						}
+					}
 				}
 			}
 
