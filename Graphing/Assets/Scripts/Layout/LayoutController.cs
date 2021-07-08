@@ -51,7 +51,8 @@ public class LayoutController : MonoBehaviour
 		for (int i = 0; i < childOrder.Count; i++)
 		{
 			RectTransform currentRect = childOrder[i].GetComponent<RectTransform>();
-			Debug.Log(currentRect.anchoredPosition);
+			currentRect.anchorMax = new Vector2(.5f, .5f);
+			currentRect.anchorMin = new Vector2 (.5f, .5f);
 			currentRect.sizeDelta = new Vector2(focus * occupancy[i], size.y);
 			if (controlsYAxis)
 			{

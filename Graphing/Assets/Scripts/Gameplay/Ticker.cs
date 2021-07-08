@@ -8,14 +8,13 @@ public class Ticker : MonoBehaviour
 {
 	public float tickerSpeed = 1f;
 
-	float price;
+	public float price;
 	public TMP_Text priceText;
 	public float priceDelta;
 
 	Grapher grapher;
 
 	public bool runTicker = true;
-	bool tickerRunning = false;
 
 	public List<Vector2> ranges;
 
@@ -29,6 +28,8 @@ public class Ticker : MonoBehaviour
 	public float volumeAmp = 1;
 	public bool overrideRangeSelect = false;
 	public int rangeSelectFrequency = 200; // number of ticks before changing range
+
+	//Brain brain;
 
 
 	// Start is called before the first frame update
@@ -47,6 +48,8 @@ public class Ticker : MonoBehaviour
 		StartCoroutine(startupRoutine());
 
 		tickerSpeed = 1;
+
+		//brain = FindObjectOfType<Brain>();
 	}
 
     // Update is called once per frame
@@ -81,8 +84,6 @@ public class Ticker : MonoBehaviour
 
 	IEnumerator ticker()
 	{
-		tickerRunning = true;
-
 		float time = 0.0f;
 		int ticks = 0;
 
@@ -254,10 +255,5 @@ public class Ticker : MonoBehaviour
 			delta = .1f;
 		}
 		return (Mathf.Round(delta * 100) / 100).ToString() + " s";
-	}
-
-	public bool isRunning()
-	{
-		return tickerRunning;
 	}
 }

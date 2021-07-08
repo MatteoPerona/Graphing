@@ -8,11 +8,13 @@ public class PlayerData
 	public List<float> netWorths;
 	public float invested;
 	public float balance;
+	public float lastPrice;
 
-	public PlayerData (List<float> nWs, float i, float b)
+	public PlayerData (List<float> nW, float i, float b, float lp)
 	{
-		netWorths = nWs;
+		netWorths = nW;
 		invested = i;
 		balance = b;
+		lastPrice = lp;
 	}
 }
