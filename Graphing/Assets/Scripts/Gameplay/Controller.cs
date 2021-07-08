@@ -26,6 +26,8 @@ public class Controller : MonoBehaviour
 	Color blue = new Color32(52, 128, 235, 255);
 	Color orange = new Color32(235, 131, 52, 255);
 
+	bool checkTickerStatus = true;
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -46,6 +48,22 @@ public class Controller : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		/*if (checkTickerStatus)
+		{
+			try
+			{
+				if (!FindObjectOfType<Ticker>().isRunning())
+				{
+					checkTickerStatus = false;
+					return;
+				}
+			}
+			catch
+			{
+				Debug.LogError("object of type 'Ticker' could not be found");
+			}
+		}*/
+	
 		if (Input.GetMouseButtonDown(0))
 		{
 			Debug.Log(Input.mousePosition);

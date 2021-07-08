@@ -15,6 +15,7 @@ public class Ticker : MonoBehaviour
 	Grapher grapher;
 
 	public bool runTicker = true;
+	bool tickerRunning = false;
 
 	public List<Vector2> ranges;
 
@@ -80,6 +81,8 @@ public class Ticker : MonoBehaviour
 
 	IEnumerator ticker()
 	{
+		tickerRunning = true;
+
 		float time = 0.0f;
 		int ticks = 0;
 
@@ -104,10 +107,11 @@ public class Ticker : MonoBehaviour
 
 				price = Mathf.Round(100 * (priceDelta + (y * grapher.yMax) / grapher.size.y)) / 100;
 
-				if (price <= 0)
+				if (price < 0)
 				{
-					y = prevPoint.position.y;
-					price = Mathf.Round(100 * (priceDelta + (y * grapher.yMax) / grapher.size.y)) / 100;
+					y = grapher.min.y;
+					investment = 0;
+					price = 0.01f;
 				}
 				else if (price <= 1)
 				{
@@ -250,5 +254,10 @@ public class Ticker : MonoBehaviour
 			delta = .1f;
 		}
 		return (Mathf.Round(delta * 100) / 100).ToString() + " s";
+	}
+
+	public bool isRunning()
+	{
+		return tickerRunning;
 	}
 }

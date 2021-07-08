@@ -56,12 +56,12 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Deprecated\GraphRenderer.cs" />
-    <Compile Include="Assets\Scripts\Deprecated\Graph.cs" />
+    <Compile Include="Assets\Scripts\z Deprecated\GraphRenderer.cs" />
+    <Compile Include="Assets\Scripts\z Deprecated\Graph.cs" />
     <Compile Include="Assets\Scripts\Prefab Logic\Unit.cs" />
-    <Compile Include="Assets\Scripts\Deprecated\PlotRenderer.cs" />
+    <Compile Include="Assets\Scripts\z Deprecated\PlotRenderer.cs" />
     <Compile Include="Assets\Scripts\Prefab Logic\Point.cs" />
-    <Compile Include="Assets\Scripts\Fitter.cs" />
+    <Compile Include="Assets\Scripts\Layout\Fitter.cs" />
     <Compile Include="Assets\Scripts\Grapher.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
@@ -97,10 +97,12 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
-    <Compile Include="Assets\Scripts\Ticker.cs" />
-    <Compile Include="Assets\Scripts\Controller.cs" />
-    <Compile Include="Assets\Scripts\LayoutController.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Ticker.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Controller.cs" />
+    <Compile Include="Assets\Scripts\Layout\LayoutController.cs" />
     <Compile Include="Assets\Scripts\Prefab Logic\InputText.cs" />
+    <Compile Include="Assets\Scripts\Data\Brain.cs" />
+    <Compile Include="Assets\Scripts\Data\PlayerData.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
