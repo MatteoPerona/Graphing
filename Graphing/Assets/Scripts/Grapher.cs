@@ -90,7 +90,7 @@ public class Grapher : MonoBehaviour
 
 		GameObject newPoint = Instantiate(point, new Vector2(xVal, yVal), Quaternion.identity, transform);
 		points.Add(newPoint);
-		Debug.Log(xVal + ", " + yVal);
+		//Debug.Log(xVal + ", " + yVal);
 
 		// updates window size
 		if (constantWindowSize && yVal > max.y || yVal < min.y)

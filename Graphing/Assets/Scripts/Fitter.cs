@@ -5,6 +5,8 @@ using UnityEngine;
 public class Fitter : MonoBehaviour
 {
     public bool useParentAsReference = false;
+    public bool childrenControlHeight = false;
+    public bool childrenControlWidth = false;
 
     // Start is called before the first frame update
     void Awake()

@@ -41,7 +41,6 @@ public class LayoutController : MonoBehaviour
 	void refreshLayout() // updates sizes & positions of children
 	{
 		Vector2 size = GetComponent<RectTransform>().sizeDelta;
-		Debug.Log(size);
 		float focus = size.x;
 		if (controlsYAxis)
 		{
@@ -52,8 +51,8 @@ public class LayoutController : MonoBehaviour
 		for (int i = 0; i < childOrder.Count; i++)
 		{
 			RectTransform currentRect = childOrder[i].GetComponent<RectTransform>();
+			Debug.Log(currentRect.anchoredPosition);
 			currentRect.sizeDelta = new Vector2(focus * occupancy[i], size.y);
-			Debug.Log(size);
 			if (controlsYAxis)
 			{
 				currentRect.sizeDelta = new Vector2(size.x, focus * occupancy[i]);
