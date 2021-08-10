@@ -7,8 +7,11 @@ public class Brain : MonoBehaviour
 	public List<float> netWorths;
 
 	Ticker ticker;
+	Grapher graph;
 
 	float time = 0;
+
+	public bool loadSave;
 
 
 	// Start is called before the first frame update
@@ -22,7 +25,14 @@ public class Brain : MonoBehaviour
 			netWorths = new List<float>();
 		}
 
-		ticker = FindObjectOfType<Ticker>();
+		if (ticker == null)
+		{
+			ticker = FindObjectOfType<Ticker>();
+		}
+		if (graph == null)
+		{
+			graph = FindObjectOfType<Grapher>();
+		}
 	}
 
 
@@ -70,17 +80,33 @@ public class Brain : MonoBehaviour
 
 	void save()
 	{
-		PlayerData data = new PlayerData(netWorths, ticker.investment, ticker.balance, ticker.price);
+		PlayerData data = new PlayerData(netWorths, ticker.investment, ticker.balance, ticker.price, ticker.prices, ticker.volumeAmp);
 		SaveData.SaveGame(data);
 	}
 	
 	void load()
 	{
 		PlayerData data = SaveData.LoadGame();
-		netWorths = data.netWorths;
-		ticker.balance = data.balance;
-		ticker.investment = data.invested;
-		ticker.price = data.lastPrice;
-		//figure out how to load graph here 
+		Debug.Log("netWorths" + data.netWorths + ", balance " + data.balance + ", invested " + data.invested + ", lastPrice " + data.lastPrice);
+		if (loadSave)
+		{
+			netWorths = data.netWorths;
+
+			if (ticker == null)
+			{
+				ticker = FindObjectOfType<Ticker>();
+			}
+			ticker.balance = data.balance;
+			ticker.investment = data.invested;
+			ticker.price = data.lastPrice;
+			ticker.updatePlayerData();
+
+			//figure out how to load graph here 
+			if (graph == null)
+			{
+				graph = FindObjectOfType<Grapher>();
+			}
+			
+		}
 	}
 }

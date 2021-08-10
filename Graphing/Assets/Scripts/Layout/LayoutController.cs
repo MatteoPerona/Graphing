@@ -86,6 +86,7 @@ public class LayoutController : MonoBehaviour
 		else if (sum < .99f)
 		{
 			Debug.LogError("The sum of floats in Occupancy is less than 1.");
+			//Debug.Log(sum);
 			return false;
 		}
 

@@ -11,6 +11,7 @@ public class Ticker : MonoBehaviour
 	public float price;
 	public TMP_Text priceText;
 	public float priceDelta;
+	public List<float> prices;
 
 	Grapher grapher;
 
@@ -45,6 +46,8 @@ public class Ticker : MonoBehaviour
 			ranges = new List<Vector2>();
 		}
 
+		
+
 		StartCoroutine(startupRoutine());
 
 		tickerSpeed = 1;
@@ -58,6 +61,13 @@ public class Ticker : MonoBehaviour
 		
 	}
 
+	public void updatePlayerData()
+	{
+		balanceText.text = "$" + (Mathf.Round(balance * 100) / 100).ToString();
+		investmentText.text = "$" + (Mathf.Round(investment * 100) / 100).ToString();
+		priceText.text = "$" + price.ToString();
+	}
+
 
 	public IEnumerator startupRoutine()
 	{
@@ -66,18 +76,49 @@ public class Ticker : MonoBehaviour
 			yield return null;
 		}
 
+
+		if (prices == null)
+		{
+			prices = new List<float>();
+			/*
+			List<Vector2> data = new List<Vector2>();
+			float prevY = 0;
+			for (int p = 0; p < grapher.pointCount; p++)
+			{
+				float x = (p * grapher.xMax) / grapher.pointCount;
+				float y = prevY + Random.Range(.5f, -.5f);
+				if (y < 0)
+				{
+					y = 0;
+					y += Random.Range(.5f, 0);
+				}
+
+				data.Add(new Vector2(x, y));
+				prices.Add(y);
+
+				prevY = y;
+			}
+			grapher.generateGraph(data);
+			*/
+		}
+
 		List<Vector2> data = new List<Vector2>();
 		float prevY = 0;
 		for (int p = 0; p < grapher.pointCount; p++)
 		{
 			float x = (p * grapher.xMax) / grapher.pointCount;
 			float y = prevY + Random.Range(.5f, -.5f);
+			if (y < 0)
+			{
+				y = 0;
+				y += Random.Range(.5f, 0);
+			}
 
 			data.Add(new Vector2(x, y));
+			prices.Add(y);
 
 			prevY = y;
 		}
-
 		grapher.generateGraph(data);
 		StartCoroutine(ticker());
 	}
@@ -131,6 +172,9 @@ public class Ticker : MonoBehaviour
 				grapher.drawTweens();
 				
 				priceText.text = "$" + price.ToString();
+
+				prices.Add(price);
+				prices.Remove(prices[0]);
 
 				if (investment > 0)
 				{
