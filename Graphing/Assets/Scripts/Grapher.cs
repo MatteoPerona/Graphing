@@ -68,6 +68,10 @@ public class Grapher : MonoBehaviour
 		}
 
 		drawTweens();
+		if (gameObject.name == "Net Worth Graph")
+		{
+			Debug.Log("generating graph");
+		}
 	}
 
 

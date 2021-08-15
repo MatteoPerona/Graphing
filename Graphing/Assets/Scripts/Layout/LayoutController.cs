@@ -28,7 +28,7 @@ public class LayoutController : MonoBehaviour
 		}
 
 		// checking that all inputted values add up to 1
-		sumToOne(occupancy);
+		//sumToOne(occupancy);
 		refreshLayout();
 	}
 

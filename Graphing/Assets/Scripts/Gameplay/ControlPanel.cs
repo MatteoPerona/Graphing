@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class ControlPanel : MonoBehaviour
 {
 	SwipeToggler toggler;
-	// list of buttons that toggle in the control panel
+
+	public List<Button> buttons;
 
 	public float animTime;
 
@@ -15,13 +16,21 @@ public class ControlPanel : MonoBehaviour
 	{
 		toggler = GetComponent<SwipeToggler>();
 
-		//delegate opening control panel to buttons in list here 
-	}
+		if (buttons == null)
+		{
+			buttons = new List<Button>();
+		}
 
-	private void OnMouseDown()
-	{
-		
+		foreach (Button b in buttons)
+		{
+			b.onClick.AddListener(delegate
+			{
+				Debug.Log("button clicked");
+				StartCoroutine(toggler.toggleIn());
+			});
+		}
 	}
+	
 
 	// Update is called once per frame
 	void Update()

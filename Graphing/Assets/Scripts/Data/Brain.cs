@@ -13,6 +13,8 @@ public class Brain : MonoBehaviour
 
 	public bool loadSave;
 
+	NetWorthGraph nwGraph;
+
 
 	// Start is called before the first frame update
 	void Start()
@@ -33,6 +35,11 @@ public class Brain : MonoBehaviour
 		{
 			graph = FindObjectOfType<Grapher>();
 		}
+
+		if (nwGraph == null)
+		{
+			nwGraph = FindObjectOfType<NetWorthGraph>();
+		}
 	}
 
 
@@ -40,13 +47,14 @@ public class Brain : MonoBehaviour
 	void Update()
 	{
 		time += Time.deltaTime;
-		if (time == 60)
+		if (time >= 5)
 		{
 			netWorths.Add(ticker.balance + ticker.investment);
+			nwGraph.updateGraph();
 			time = 0;
 		}
 
-		if (netWorths.Count == 100)
+		if (netWorths.Count == 100) // averages values in list to half count while preserving data
 		{
 			List<float> temp = new List<float>();
 			for (int i = 0; i < netWorths.Count/2; i++)
