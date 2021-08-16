@@ -25,6 +25,7 @@ public class Brain : MonoBehaviour
 		if (netWorths == null)
 		{
 			netWorths = new List<float>();
+			netWorths.Add(1);
 		}
 
 		if (ticker == null)
@@ -33,7 +34,7 @@ public class Brain : MonoBehaviour
 		}
 		if (graph == null)
 		{
-			graph = FindObjectOfType<Grapher>();
+			graph = GameObject.Find("Graph").GetComponent<Grapher>();
 		}
 
 		if (nwGraph == null)

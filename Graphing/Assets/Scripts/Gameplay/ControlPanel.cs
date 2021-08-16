@@ -35,7 +35,6 @@ public class ControlPanel : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		
 	}
 
 	public IEnumerator fadeAlpha(float start, float end, Image im)

@@ -41,16 +41,7 @@ public class Grapher : MonoBehaviour
 			units = new List<GameObject>();
 		}
 
-		refPos = transform.position;
-
-		size = GetComponent<RectTransform>().sizeDelta;
-		max = new Vector2(refPos.x + size.x / 2, refPos.y + size.y / 2);
-		min = new Vector2(refPos.x - size.x / 2, refPos.y - size.y / 2);
-		
-
-		pointDistX = size.x / pointCount;
-
-		ready = true;
+		updateGraphPos();
 	}
 
 
@@ -60,18 +51,30 @@ public class Grapher : MonoBehaviour
 	}
 
 
+	void updateGraphPos()
+	{
+		refPos = transform.position;
+
+		size = GetComponent<RectTransform>().sizeDelta;
+		max = new Vector2(refPos.x + size.x / 2, refPos.y + size.y / 2);
+		min = new Vector2(refPos.x - size.x / 2, refPos.y - size.y / 2);
+
+		pointDistX = size.x / pointCount;
+
+		ready = true;
+	}
+
+
 	public void generateGraph(List<Vector2> data)
 	{
+		updateGraphPos();
+
 		foreach (Vector2 v in data)
 		{
 			plotPoint(v.x, v.y);
 		}
 
 		drawTweens();
-		if (gameObject.name == "Net Worth Graph")
-		{
-			Debug.Log("generating graph");
-		}
 	}
 
 
@@ -81,6 +84,15 @@ public class Grapher : MonoBehaviour
 		point.GetComponent<Point>().DestroyMe();
 	}
 
+	public void purgePoints()
+	{
+		foreach (GameObject p in points)
+		{
+			p.GetComponent<Point>().DestroyMe();
+		}
+		points.Clear();
+	}
+
 
 	public void plotPoint(float x, float y, bool scaleCoords = true)
 	{
@@ -88,11 +100,18 @@ public class Grapher : MonoBehaviour
 		float yVal = y;
 		if (scaleCoords)
 		{
-			xVal = size.x * (x / xMax);
-			yVal = size.y * (y / yMax);
+			xVal = min.x + size.x * (x / xMax);
+			yVal = min.y + size.y * (y / yMax);
+		}
+		
+		GameObject newPoint = Instantiate(point, new Vector2(xVal, yVal), Quaternion.identity, transform);
+
+		if (gameObject.name == "Net Worth Graph")
+		{
+			Debug.Log("output vector: " + new Vector2(xVal, yVal));
+			Debug.Log(newPoint.transform.position);
 		}
 
-		GameObject newPoint = Instantiate(point, new Vector2(xVal, yVal), Quaternion.identity, transform);
 		points.Add(newPoint);
 		//Debug.Log(xVal + ", " + yVal);
 

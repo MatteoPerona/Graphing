@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class NetWorthGraph : MonoBehaviour
 {
 	Brain brain;
 	Grapher graph;
+
+	public TMP_Text netWorthText;
+
 
 	// Start is called before the first frame update
 	void Start()
@@ -15,6 +20,7 @@ public class NetWorthGraph : MonoBehaviour
 
 		graph.pointCount = brain.netWorths.Count;
 		graph.yMax = maxFromList(brain.netWorths);
+		netWorthText.text = "$1.00";
 	}
 
 	// Update is called once per frame
@@ -26,18 +32,21 @@ public class NetWorthGraph : MonoBehaviour
 
 	public void updateGraph()
 	{
+		netWorthText.text = brain.netWorths[brain.netWorths.Count-1].ToString("C");
+
+		graph.purgePoints();
 		List<Vector2> data = new List<Vector2>();
 		int p = 0;
 		foreach (float f in brain.netWorths)
 		{
 			data.Add(new Vector2(p, f));
-			Debug.Log(new Vector2(p, f));
+			Debug.Log("Input Vector: "+new Vector2(p, f));
 			p++;
 		}
 		graph.pointCount = brain.netWorths.Count;
+		graph.xMax = brain.netWorths.Count;
 		graph.yMax = maxFromList(brain.netWorths);
 		graph.generateGraph(data);
-		// need to adjust locations where points are instantiated
 	}
 
 	float maxFromList(List<float> data)

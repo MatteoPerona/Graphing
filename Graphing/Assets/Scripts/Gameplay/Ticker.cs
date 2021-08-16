@@ -80,26 +80,6 @@ public class Ticker : MonoBehaviour
 		if (prices == null)
 		{
 			prices = new List<float>();
-			/*
-			List<Vector2> data = new List<Vector2>();
-			float prevY = 0;
-			for (int p = 0; p < grapher.pointCount; p++)
-			{
-				float x = (p * grapher.xMax) / grapher.pointCount;
-				float y = prevY + Random.Range(.5f, -.5f);
-				if (y < 0)
-				{
-					y = 0;
-					y += Random.Range(.5f, 0);
-				}
-
-				data.Add(new Vector2(x, y));
-				prices.Add(y);
-
-				prevY = y;
-			}
-			grapher.generateGraph(data);
-			*/
 		}
 
 		List<Vector2> data = new List<Vector2>();
@@ -205,7 +185,7 @@ public class Ticker : MonoBehaviour
 	}
 
 
-	public void order (float percentage)
+	public void order (float percentage) // buy/sell function
 	{
 		//scale percentage down for better control
 		if (percentage >= .75f)
@@ -238,7 +218,7 @@ public class Ticker : MonoBehaviour
 		investmentText.text = "$" + (Mathf.Round(investment * 100) / 100).ToString();
 	}
 
-	public string orderVolumeString(float percentage)
+	public string orderVolumeString(float percentage) // retrurns the volume that is being bought/sold
 	{
 		float vol;
 
@@ -269,7 +249,7 @@ public class Ticker : MonoBehaviour
 		return "-$" + (Mathf.Round(vol * 100) / 100).ToString();
 	}
 
-	public void updateTickerSpeed(float percentage)
+	public void updateTickerSpeed(float percentage) // changes the speed at which the stock price updates
 	{
 		float delta = percentage * -1.5f;
 		float temp = delta + tickerSpeed;
@@ -287,7 +267,7 @@ public class Ticker : MonoBehaviour
 		}
 	}
 
-	public string deltaSpeedString(float percentage, float currentTickerSpeed)
+	public string deltaSpeedString(float percentage, float currentTickerSpeed) // returns the current ticker refresh speed
 	{
 		float delta = percentage * -1.5f + currentTickerSpeed;
 		if (delta > 1)
