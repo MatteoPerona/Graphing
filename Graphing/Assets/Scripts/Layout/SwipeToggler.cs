@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+
+[ExecuteInEditMode]
 public class SwipeToggler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
 	RectTransform rt;

@@ -40,7 +40,6 @@ public class NetWorthGraph : MonoBehaviour
 		foreach (float f in brain.netWorths)
 		{
 			data.Add(new Vector2(p, f));
-			Debug.Log("Input Vector: "+new Vector2(p, f));
 			p++;
 		}
 		graph.pointCount = brain.netWorths.Count;

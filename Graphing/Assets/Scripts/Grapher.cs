@@ -106,12 +106,6 @@ public class Grapher : MonoBehaviour
 		
 		GameObject newPoint = Instantiate(point, new Vector2(xVal, yVal), Quaternion.identity, transform);
 
-		if (gameObject.name == "Net Worth Graph")
-		{
-			Debug.Log("output vector: " + new Vector2(xVal, yVal));
-			Debug.Log(newPoint.transform.position);
-		}
-
 		points.Add(newPoint);
 		//Debug.Log(xVal + ", " + yVal);
 
