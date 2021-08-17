@@ -23,22 +23,16 @@ public class SwipeToggler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 	float thresholdUpper;
 	float thresholdLower;
 
-	public List<GameObject> obsToPause;
-
 	public bool toggledOn;
 
 	Vector2 ogPos;
 
 	bool coroutineCallable;
 
+
 	// Start is called before the first frame update
 	void Start()
 	{
-		if (obsToPause == null)
-		{
-			obsToPause = new List<GameObject>();
-		}
-
 		if (rt == null)
 		{
 			rt = GetComponent<RectTransform>();
@@ -61,28 +55,12 @@ public class SwipeToggler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 	// Update is called once per frame
 	void Update()
 	{
-		if (Input.GetKeyDown("a")) // temporary
-		{
-			if (toggledOn && coroutineCallable)
-			{
-				StartCoroutine(toggleOut());
-			}
-			else if (coroutineCallable)
-			{
-				StartCoroutine(toggleIn());
-			}
-		}
 	}
 
 
 	public void OnBeginDrag(PointerEventData data)
 	{
 		ogPos = data.position;
-
-		foreach (GameObject g in obsToPause)
-		{
-			g.SetActive(false);
-		}
 	}
 
 	public void OnDrag(PointerEventData data)
@@ -120,21 +98,12 @@ public class SwipeToggler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 		{
 			StartCoroutine(toggleIn());
 		}
-
-		foreach (GameObject g in obsToPause)
-		{
-			g.SetActive(true);
-		}
 	}
 
 
 	public IEnumerator toggleIn()
 	{
 		coroutineCallable = false;
-		foreach (GameObject g in obsToPause)
-		{
-			g.SetActive(false);
-		}
 
 		ogPos = transform.position;
 		float time = 0;
@@ -148,20 +117,12 @@ public class SwipeToggler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 		transform.position = inPos;
 		toggledOn = true;
 
-		foreach (GameObject g in obsToPause)
-		{
-			g.SetActive(true);
-		}
 		coroutineCallable = true;
 	}
 
 	public IEnumerator toggleOut()
 	{
 		coroutineCallable = false;
-		foreach (GameObject g in obsToPause)
-		{
-			g.SetActive(false);
-		}
 
 		ogPos = transform.position;
 		float time = 0;
@@ -175,10 +136,6 @@ public class SwipeToggler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 		transform.position = outPos;
 		toggledOn = false;
 
-		foreach (GameObject g in obsToPause)
-		{
-			g.SetActive(true);
-		}
 		coroutineCallable = true;
 	}
 

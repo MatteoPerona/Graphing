@@ -25,7 +25,6 @@ public class ControlPanel : MonoBehaviour
 		{
 			b.onClick.AddListener(delegate
 			{
-				Debug.Log("button clicked");
 				StartCoroutine(toggler.toggleIn());
 			});
 		}

@@ -10,9 +10,9 @@ public class RectMapper : MonoBehaviour
 
 	Vector3 ogPos;
 
-	[Range(0, 1)]
+	[Range(0, 2)]
 	public float xPadding = 1;
-	[Range(0, 1)]
+	[Range(0, 2)]
 	public float yPadding = 1;
 
 	Vector2 ogPadding;

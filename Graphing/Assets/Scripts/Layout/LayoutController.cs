@@ -109,4 +109,10 @@ public class LayoutController : MonoBehaviour
 
 		transform.position = transform.parent.position;
 	}
+
+
+	private void OnValidate()
+	{
+		Debug.Log("validate being called"); 
+	}
 }
