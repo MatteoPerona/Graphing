@@ -39,7 +39,7 @@ public class LayoutController : MonoBehaviour
 		
 	}
 
-	void refreshLayout() // updates sizes & positions of children
+	public void refreshLayout() // updates sizes & positions of children
 	{
 		Vector2 size = GetComponent<RectTransform>().sizeDelta;
 		float focus = size.x;

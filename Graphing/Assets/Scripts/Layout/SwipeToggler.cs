@@ -8,9 +8,13 @@ using UnityEngine.EventSystems;
 public class SwipeToggler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
 	RectTransform rt;
+	RectTransform parentRT;
 
 	Vector2 inPos;
 	Vector2 outPos;
+
+	Vector2 inAnchor;
+	Vector2 outAnchor;
 
 	public float animTime;
 
@@ -37,12 +41,14 @@ public class SwipeToggler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 		{
 			rt = GetComponent<RectTransform>();
 		}
-
-		inPos = transform.parent.position;
+		if (parentRT == null)
+		{
+			parentRT = transform.parent.GetComponent<RectTransform>();
+		}
 
 		coroutineCallable = true;
 
-		findOutPos();
+		findPositions();
 
 		toggledOn = true;
 		if (startToggledOff)
@@ -103,6 +109,7 @@ public class SwipeToggler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 
 	public IEnumerator toggleIn()
 	{
+		Debug.Log(inPos);
 		coroutineCallable = false;
 
 		ogPos = transform.position;
@@ -122,6 +129,7 @@ public class SwipeToggler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 
 	public IEnumerator toggleOut()
 	{
+		Debug.Log(outPos);
 		coroutineCallable = false;
 
 		ogPos = transform.position;
@@ -139,31 +147,59 @@ public class SwipeToggler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 		coroutineCallable = true;
 	}
 
-	void findOutPos()
+	void findPositions()
 	{
 		if (verticalSwipe && startsFromBottomorLeft)
 		{
+			Vector2 parentAnchor = findAnchor(parentRT, 0);
+			inPos = new Vector2(parentRT.position.x, parentAnchor.y - rt.sizeDelta.y / 2);
 			outPos = new Vector2(inPos.x, (inPos.y - rt.sizeDelta.y) * (1-percentProtrusion));
 			thresholdUpper = inPos.y;
 			thresholdLower = outPos.y;
 		}
 		else if (!verticalSwipe && startsFromBottomorLeft)
 		{
+			Vector2 parentAnchor = findAnchor(parentRT, 3);
+			inPos = new Vector2(parentAnchor.x + rt.sizeDelta.x / 2, parentRT.position.y);
 			outPos = new Vector2((inPos.x - rt.sizeDelta.x) * (1 - percentProtrusion), inPos.y);
 			thresholdUpper = inPos.x;
 			thresholdLower = outPos.x;
 		}
 		else if (verticalSwipe && !startsFromBottomorLeft)
 		{
+			Vector2 parentAnchor = findAnchor(parentRT, 2);
+			inPos = new Vector2(parentRT.position.x, parentAnchor.y + rt.sizeDelta.y / 2);
 			outPos = new Vector2(inPos.x, (inPos.y + rt.sizeDelta.y) * (1 - percentProtrusion));
 			thresholdUpper = outPos.y;
 			thresholdLower = inPos.y;
 		}
 		else
 		{
+			Vector2 parentAnchor = findAnchor(parentRT, 1);
+			inPos = new Vector2(parentAnchor.x - rt.sizeDelta.x / 2, parentRT.position.y);
 			outPos = new Vector2((inPos.x + rt.sizeDelta.x) * (1 - percentProtrusion), inPos.y);
 			thresholdUpper = outPos.x;
 			thresholdLower = inPos.x;
+		}
+	}
+
+	Vector2 findAnchor(RectTransform t, int side) // finds anchor at the center of one: [top, left, bottom, right] represented as [0, 1, 2, 3]
+	{
+		if (side == 0)
+		{
+			return new Vector2(t.position.x, t.position.y + t.sizeDelta.y / 2);
+		}
+		else if (side == 1)
+		{
+			return new Vector2(t.position.x - t.sizeDelta.x / 2, t.position.y);
+		}
+		else if (side == 2)
+		{
+			return new Vector2(t.position.x, t.position.y - t.sizeDelta.y / 2);
+		}
+		else
+		{
+			return new Vector2(t.position.x + t.sizeDelta.x / 2, t.position.y);
 		}
 	}
 }
