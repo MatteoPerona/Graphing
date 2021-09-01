@@ -109,7 +109,7 @@ public class SwipeToggler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 
 	public IEnumerator toggleIn()
 	{
-		Debug.Log(inPos);
+		//Debug.Log(inPos);
 		coroutineCallable = false;
 
 		ogPos = transform.position;
@@ -129,7 +129,7 @@ public class SwipeToggler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
 
 	public IEnumerator toggleOut()
 	{
-		Debug.Log(outPos);
+		//Debug.Log(outPos);
 		coroutineCallable = false;
 
 		ogPos = transform.position;

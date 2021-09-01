@@ -15,6 +15,8 @@ public class RectMapper : MonoBehaviour
 	[Range(0, 2)]
 	public float yPadding = 1;
 
+	public bool mapBoxCollider2D = false;
+
 	Vector2 ogPadding;
 
 	// Start is called before the first frame update
@@ -28,6 +30,11 @@ public class RectMapper : MonoBehaviour
 		mapRects();
 
 		ogPadding = new Vector2(xPadding, yPadding);
+
+		if (mapBoxCollider2D)
+		{
+			GetComponent<BoxCollider2D>().size = outRect.sizeDelta;
+		}
 	}
 
 	// Update is called once per frame

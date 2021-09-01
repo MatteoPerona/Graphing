@@ -34,6 +34,14 @@ public class ControlPanel : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		/*if (Input.GetMouseButtonDown(0))
+		{
+			RaycastHit2D hit = Physics2D.Raycast(Input.mousePosition, Vector2.zero);
+			if (hit.transform == transform)
+			{
+				Debug.Log(transform.name);
+			}
+		}*/
 	}
 
 	public IEnumerator fadeAlpha(float start, float end, Image im)

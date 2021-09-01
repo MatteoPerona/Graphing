@@ -113,6 +113,5 @@ public class LayoutController : MonoBehaviour
 
 	private void OnValidate()
 	{
-		Debug.Log("validate being called"); 
 	}
 }
