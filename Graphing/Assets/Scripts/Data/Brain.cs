@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+
 
 public class Brain : MonoBehaviour
 {
+	public List<Stock> stocks;
 	public List<float> netWorths;
+
+	public Stock activeStock;
 
 	Ticker ticker;
 	Grapher graph;
@@ -15,6 +20,11 @@ public class Brain : MonoBehaviour
 
 	NetWorthGraph nwGraph;
 
+	public float deltaTicks;
+	bool count = false;
+
+	public TMP_Text stockName;
+
 
 	// Start is called before the first frame update
 	void Start()
@@ -22,10 +32,21 @@ public class Brain : MonoBehaviour
 		QualitySettings.vSyncCount = 0;
 		Application.targetFrameRate = 60;
 
+		if (stocks == null)
+		{
+			stocks = new List<Stock>();
+			createStock();
+		}
+
 		if (netWorths == null)
 		{
 			netWorths = new List<float>();
 			netWorths.Add(1);
+		}
+
+		if (activeStock == null)
+		{
+			setActiveStock(stocks[0]);
 		}
 
 		if (ticker == null)
@@ -116,6 +137,43 @@ public class Brain : MonoBehaviour
 				graph = FindObjectOfType<Grapher>();
 			}
 			
+		}
+	}
+
+
+	public void createStock()
+	{
+		Stock newStock = new Stock();
+		stocks.Add(newStock);
+	}
+
+	public void setActiveStock(Stock s)
+	{
+		s.updateRevenue();
+		foreach (float r in s.revenue)
+		{
+			Debug.Log(r);
+		}
+		Debug.Log(s.swingVariable);
+
+		activeStock = s;
+
+		Camera.main.backgroundColor = s.color;
+		stockName.text = s.name;
+		
+	}
+
+	public IEnumerator countTicks() // for recalculating stock prices
+	{
+		float threshold = 0.0f;
+		while (count)
+		{
+			if (threshold >= ticker.tickerSpeed)
+			{
+				threshold = 0.0f;
+				deltaTicks++;
+			}
+			yield return null;
 		}
 	}
 }

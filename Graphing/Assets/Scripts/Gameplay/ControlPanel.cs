@@ -28,6 +28,12 @@ public class ControlPanel : MonoBehaviour
 				StartCoroutine(toggler.toggleIn());
 			});
 		}
+
+		Color stockColor = FindObjectOfType<Brain>().activeStock.color;
+		float colorModPercent = 0.80f;
+		Color32 newColor = new Color(stockColor.r * colorModPercent, stockColor.g * colorModPercent, stockColor.b * colorModPercent, stockColor.a);
+		GetComponent<Image>().color = newColor;
+		Debug.Log("newColor: " + newColor.ToString());
 	}
 	
 

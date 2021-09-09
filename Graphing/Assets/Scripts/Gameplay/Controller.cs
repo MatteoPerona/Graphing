@@ -21,10 +21,15 @@ public class Controller : MonoBehaviour
 	public TMP_Text inputText;
 	TMP_Text currentInputText;
 
-	Color red = new Color32(235, 64, 52, 255);
+	/*Color red = new Color32(235, 64, 52, 255);
 	Color green = new Color32(52, 235, 73, 255);
 	Color blue = new Color32(52, 128, 235, 255);
-	Color orange = new Color32(235, 131, 52, 255);
+	Color orange = new Color32(235, 131, 52, 255);*/
+
+	Color red = new Color32(235, 125, 117, 255);
+	Color green = new Color32(117, 235, 131, 255);
+	Color blue = new Color32(117, 166, 235, 255);
+	Color orange = new Color32(235, 168, 117, 255);
 
 	bool inputHeld;
 
