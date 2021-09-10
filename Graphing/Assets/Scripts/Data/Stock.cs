@@ -31,7 +31,7 @@ public class Stock
 		price = new float[50];
 		revenue = new float[10];
 
-		updatePrices(0, true);
+		updatePrices(0, 1, true);
 		updateRevenue(true);
 	}
 
@@ -60,16 +60,26 @@ public class Stock
 	}
 
 
-	public void updatePrices(float ticks, bool innit = false)
+	public void updatePrices(float ticks, float volatility = 1, bool innit = false)
 	{
+		List<float> temp = new List<float>();
 		if (innit)
 		{
-			float startPrice = Random.Range(1f, 100f);
-			for (int i = 0; i < price.Length; i++)
+			temp.Add(Random.Range(1f, 100f));
+
+			for (int i = 1; i < price.Length; i++)
 			{
-				
+				temp.Add(temp[i-1] + temp[i - 1] * Random.Range(-0.01f, 0.01f) * volatility);
 			}
 		}
+		else
+		{
+			temp.Add(price[price.Length - 1]);
+			for (int i = 0; i < ticks; i++)
+			{
+				temp.Add(temp[i - 1] + temp[i - 1] * Random.Range(-0.01f, 0.01f) * volatility);
+			}
+		}	
 	}
 
 
