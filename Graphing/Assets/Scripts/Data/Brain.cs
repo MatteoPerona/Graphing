@@ -27,7 +27,7 @@ public class Brain : MonoBehaviour
 
 
 	// Start is called before the first frame update
-	void Start()
+	void Awake()
 	{
 		QualitySettings.vSyncCount = 0;
 		Application.targetFrameRate = 60;
@@ -152,9 +152,9 @@ public class Brain : MonoBehaviour
 		s.updateRevenue();
 		foreach (float r in s.revenue)
 		{
-			Debug.Log(r);
+			//Debug.Log(r);
 		}
-		Debug.Log(s.swingVariable);
+		//Debug.Log(s.swingVariable);
 
 		activeStock = s;
 

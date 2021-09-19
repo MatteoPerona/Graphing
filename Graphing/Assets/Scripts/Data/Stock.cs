@@ -55,7 +55,7 @@ public class Stock
 			hue = new float[] { 0.14f, 0.51f }[Random.Range(0, 2)];
 		}
 		color = Color.HSVToRGB(Random.Range(0.00f, 1.00f), 0.6f, 0.2f);
-		Debug.Log("stock color: " + color.ToString());
+		//Debug.Log("stock color: " + color.ToString());
 		//color = Color.HSVToRGB(Random.Range(0, 360), 0.75f, 0.75f);
 	}
 

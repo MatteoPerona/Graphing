@@ -33,7 +33,7 @@ public class ControlPanel : MonoBehaviour
 		float colorModPercent = 0.80f;
 		Color32 newColor = new Color(stockColor.r * colorModPercent, stockColor.g * colorModPercent, stockColor.b * colorModPercent, stockColor.a);
 		GetComponent<Image>().color = newColor;
-		Debug.Log("newColor: " + newColor.ToString());
+		//Debug.Log("newColor: " + newColor.ToString());
 	}
 	
 

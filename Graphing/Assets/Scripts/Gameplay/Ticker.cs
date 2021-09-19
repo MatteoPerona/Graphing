@@ -30,6 +30,8 @@ public class Ticker : MonoBehaviour
 	public bool overrideRangeSelect = false;
 	public int rangeSelectFrequency = 200; // number of ticks before changing range
 
+	Brain brain;
+
 	//Brain brain;
 
 
@@ -46,7 +48,10 @@ public class Ticker : MonoBehaviour
 			ranges = new List<Vector2>();
 		}
 
-		
+		if (brain == null)
+		{
+			brain = FindObjectOfType<Brain>();
+		}
 
 		StartCoroutine(startupRoutine());
 
@@ -82,7 +87,7 @@ public class Ticker : MonoBehaviour
 			prices = new List<float>();
 		}
 
-		List<Vector2> data = new List<Vector2>();
+		/*List<Vector2> data = new List<Vector2>();
 		float prevY = 0;
 		for (int p = 0; p < grapher.pointCount; p++)
 		{
@@ -98,7 +103,23 @@ public class Ticker : MonoBehaviour
 			prices.Add(y);
 
 			prevY = y;
+		}*/
+
+		List<Vector2> data = new List<Vector2>();
+		
+		float[] priceArr = brain.activeStock.price;
+		float maxPrice = 0;
+		for (int i = 0; i < priceArr.Length; i++)
+		{
+			data.Add(new Vector2(i, prices[i]));
+			if (prices[i] > maxPrice)
+			{
+				maxPrice = prices[i];
+			}
 		}
+		Debug.Log(maxPrice);
+		grapher.yMax = maxPrice * 2;
+
 		grapher.generateGraph(data);
 		StartCoroutine(ticker());
 	}
